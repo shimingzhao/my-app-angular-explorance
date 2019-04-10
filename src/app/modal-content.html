@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add/Edit</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>
+    Name :
+    <input [(ngModel)]="user.name" type="text" />
+  </p>
+  <p>
+    Family :
+    <input [(ngModel)]="user.family" type="text" />
+  </p>
+</div>
+<div class="modal-footer">
+  <button
+    class="btn btn-outline-dark"
+    [hidden]="user.editingIndex !== undefined"
+    (click)="add()"
+    type="button"
+  >
+    Add
+  </button>
+  <button
+    class="btn btn-outline-dark"
+    [hidden]="user.editingIndex === undefined"
+    (click)="edit()"
+    type="button"
+  >
+    Edit
+  </button>
+  <button
+    type="button"
+    [hidden]="user.editingIndex === undefined"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Close
+  </button>
+</div>
