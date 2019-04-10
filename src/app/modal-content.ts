@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from './app.component';
 
@@ -8,6 +8,12 @@ import { User } from './app.component';
 })
 export class NgbdModalContent implements OnInit {
   @Input() user: User;
+  @Output() passEntry: EventEmitter<any> = new EventEmitter();
   constructor(public activeModal: NgbActiveModal) {}
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.user);
+  }
+  passBack(): void {
+    this.passEntry.emit(this.user);
+  }
 }

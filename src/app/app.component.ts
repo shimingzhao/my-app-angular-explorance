@@ -4,12 +4,16 @@ import {
   VERSION,
   AfterViewInit,
   Input,
-  OnInit
+  OnInit,
+  PipeTransform
 } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormControl } from '@angular/forms';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalContent } from './modal-content';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -62,9 +66,15 @@ export class AppComponent {
 
   open(): void {
     const modalRef = this.modalService.open(NgbdModalContent);
-    this.selectedUser['editingIndex'] = this.editingIndex;
-    modalRef.componentInstance.user = this.selectedUser;
-    console.log(modalRef.componentInstance.user);
+    if (this.selectedUser) {
+      this.selectedUser['editingIndex'] = this.editingIndex;
+      modalRef.componentInstance.user = this.selectedUser;
+    } else {
+      modalRef.componentInstance.user = new User(this.name, this.family);
+    }
+    modalRef.componentInstance.passEntry.subscribe(receivedEntry => {
+      console.log(receivedEntry);
+    });
   }
 }
 
@@ -108,3 +118,31 @@ export interface LocalDate {
   month: number;
   year: number;
 }
+
+// function search(text: string, pipe: PipeTransform): Users[] {
+//   return USERS.filter(country => {
+//     const term = text.toLowerCase();
+//     return (
+//       country.name.toLowerCase().includes(term) ||
+//       pipe.transform(country.area).includes(term) ||
+//       pipe.transform(country.population).includes(term)
+//     );
+//   });
+// }
+
+// @Component({
+//   selector: 'ngbd-table-filtering',
+//   templateUrl: './app.component.html',
+//   providers: [DecimalPipe]
+// })
+// export class NgbdTableFiltering {
+//   users$: Observable<User[]>;
+//   filter = new FormControl('');
+
+//   constructor(pipe: DecimalPipe) {
+//     this.users$ = this.filter.valueChanges.pipe(
+//       startWith('')
+//       // map(text => search(text, pipe))
+//     );
+//   }
+// }

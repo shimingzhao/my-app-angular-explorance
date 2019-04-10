@@ -1,21 +1,61 @@
-<h2>Read/Show</h2>
-<div>
-  <p>
-    Search :
-    <input type="text" />
-  </p>
-</div>
+<div class="container">
+  <h2>Read/Show</h2>
+  <form class="search">
+    <div class="form-group form-inline">
+      Full text search:
+      <!-- <input class="form-control ml-2" type="text" [formControl]="filter" /> -->
+      <input class="form-control ml-2" type="text" />
+    </div>
+    <div>
+      <button class="btn btn-outline-primary" (click)="open()">
+        Add new user
+      </button>
+    </div>
+  </form>
 
-<p
-  class="users"
-  *ngFor="let user of users; let i = index"
-  [class.selectd]="user === selectedUser"
->
-  <ngb-alert type="success" (close)="delete(i)">
-    <a (click)="setEditUser(i); open()">
-      <span class="badge">{{ user.itemNum }}</span>
-      {{ user.name }} {{ user.family }}
-      {{ user.birthday }}
-    </a>
-  </ngb-alert>
-</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Family</th>
+        <th scope="col">Birthday</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr *ngFor="let user of (users$ | async); index as i"> -->
+      <tr *ngFor="let user of users; index as i">
+        <th scope="row">{{ user.itemNum }}</th>
+        <td>
+          <!-- <ngb-highlight [result]="user.name" [term]="filter.value"> -->
+          {{ user.name }}
+          <!-- </ngb-highlight> -->
+        </td>
+        <td>
+          <!-- <ngb-highlight [result]="user.family" [term]="filter.value"> -->
+          {{ user.family }}
+          <!-- </ngb-highlight> -->
+        </td>
+        <td>
+          <!-- <ngb-highlight [result]="user.birthday" [term]="filter.value"> -->
+          {{ user.birthday }}
+          <!-- </ngb-highlight> -->
+        </td>
+        <td>
+          <!-- <ngb-highlight [result]="user.birthday" [term]="filter.value"> -->
+          <button
+            class="btn btn-outline-primary"
+            (click)="setEditUser(i); open()"
+          >
+            edit
+          </button>
+          <button class="btn btn-outline-primary" (click)="delete(i)">
+            delete
+          </button>
+          <!-- </ngb-highlight> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
