@@ -37,9 +37,12 @@
       required
       #name="ngModel"
     />
-    <span *ngIf="name.errors.required && (name.dirty || name.touched)">
+    <div
+      *ngIf="name.errors.required && (name.dirty || name.touched)"
+      class="alert-danger"
+    >
       Name is required.
-    </span>
+    </div>
   </div>
   <div class="input-group">
     <p class="lable">Family :</p>
@@ -55,7 +58,7 @@
     />
     <div
       *ngIf="family.errors.required && (family.dirty || family.touched)"
-      class="alert alert-danger"
+      class="alert-danger"
     >
       Family name is required.
     </div>
