@@ -1,5 +1,10 @@
 <div class="modal-header">
-  <h4 class="modal-title">Add/Edit</h4>
+  <h4 class="modal-title" [hidden]="user.editingIndex === undefined">
+    Edit User
+  </h4>
+  <h4 class="modal-title" [hidden]="user.editingIndex !== undefined">
+    New User
+  </h4>
   <button
     type="button"
     class="close"
@@ -9,24 +14,73 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<!-- <form (submit)="onSubmit()> -->
 <div class="modal-body">
-  <p>
-    Id :
-    <input #useritemnum [(ngModel)]="user.itemNum" type="text" />
-  </p>
-  <p>
-    Name :
-    <input #username [(ngModel)]="user.name" type="text" />
-  </p>
-  <p>
-    Family :
-    <input #userfamily [(ngModel)]="user.family" type="text" />
-  </p>
-  <p>
-    Birthday :
-    <input #userbirthday [(ngModel)]="user.birthday" type="text" />
-  </p>
+  <div class="input-group">
+    <p class="lable">Id :</p>
+    <input
+      class="form-control"
+      #useritemnum
+      [(ngModel)]="user.itemNum"
+      type="text"
+    />
+  </div>
+
+  <div class="input-group">
+    <p class="lable">Name :</p>
+    <input
+      class="form-control"
+      #username
+      id="name"
+      name="name"
+      [(ngModel)]="user.name"
+      type="text"
+      required
+      #name="ngModel"
+    />
+    <span *ngIf="name.errors.required && (name.dirty || name.touched)">
+      Name is required.
+    </span>
+  </div>
+  <div class="input-group">
+    <p class="lable">Family :</p>
+    <input
+      class="form-control"
+      #userfamily
+      id="family"
+      name="family"
+      [(ngModel)]="user.family"
+      type="text"
+      required
+      #family="ngModel"
+    />
+    <div
+      *ngIf="family.errors.required && (family.dirty || family.touched)"
+      class="alert alert-danger"
+    >
+      Family name is required.
+    </div>
+  </div>
+
+  <!-- <input #userbirthday [(ngModel)]="user.birthday" type="date" /> -->
+  <div class="input-group">
+    <p class="lable">Birthday :</p>
+    <input
+      #userbirthday
+      class="form-control"
+      placeholder="yyyy-mm-dd"
+      name="dp"
+      [(ngModel)]="user.birthday"
+      ngbDatepicker
+      #d="ngbDatepicker"
+    />
+    <div class="input-group-append">
+      <button
+        class="btn btn-outline-secondary calendar"
+        (click)="d.toggle()"
+        type="button"
+      ></button>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
   <button
@@ -34,6 +88,7 @@
     [hidden]="user.editingIndex !== undefined"
     (click)="passBack(); activeModal.close('Close click')"
     type="button"
+    [disabled]="name.errors || family.errors"
   >
     Add
   </button>
@@ -42,16 +97,15 @@
     [hidden]="user.editingIndex === undefined"
     (click)="passBack(); activeModal.close('Close click')"
     type="button"
+    [disabled]="name.errors && family.errors"
   >
     Edit
   </button>
   <button
     type="button"
-    [hidden]="user.editingIndex === undefined"
     class="btn btn-outline-dark"
     (click)="activeModal.close('Close click')"
   >
     Close
   </button>
 </div>
-<!-- </form> -->

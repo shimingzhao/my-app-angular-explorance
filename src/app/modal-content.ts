@@ -12,7 +12,8 @@ import { User } from './app.component';
 
 @Component({
   selector: 'ngbd-modal-content',
-  templateUrl: './modal-content.html'
+  templateUrl: './modal-content.html',
+  styleUrls: ['./modal-content.css']
 })
 export class NgbdModalContent implements OnInit {
   @Input() user: User;
@@ -22,7 +23,9 @@ export class NgbdModalContent implements OnInit {
   @ViewChild('userbirthday') userbirthday: ElementRef;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   constructor(public activeModal: NgbActiveModal) {}
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('user', this.user);
+  }
   passBack(): void {
     let newUser = new User(
       this.username.nativeElement.value,
@@ -30,7 +33,6 @@ export class NgbdModalContent implements OnInit {
     );
     newUser['_itemNum'] = this.useritemnum.nativeElement.value;
     newUser['_birthday'] = this.userbirthday.nativeElement.value;
-    console.log('newUser', newUser);
     this.passEntry.emit(newUser);
   }
 }

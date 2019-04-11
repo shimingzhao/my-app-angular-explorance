@@ -1,0 +1,13 @@
+.lable {
+  width: 20%;
+  line-height: auto;
+  margin: auto;
+}
+
+.input-group {
+  margin-top: 1rem;
+}
+
+.form-control {
+  width: 100px !important;
+}

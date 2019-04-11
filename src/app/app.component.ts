@@ -19,7 +19,8 @@ import { log } from 'util';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [DecimalPipe]
 })
 export class AppComponent {
   private _users: User[];
@@ -27,6 +28,9 @@ export class AppComponent {
   name: string;
   family: string;
   editingIndex: number;
+  users$: Observable<User[]>;
+  filter = new FormControl('');
+  pipe: DecimalPipe;
 
   constructor(private modalService: NgbModal) {
     this._users = [
@@ -35,6 +39,14 @@ export class AppComponent {
       new User('Amir', 'Olfat'),
       new User('Keyvan', 'Nasr')
     ];
+    this.userFilter(this.pipe);
+  }
+
+  userFilter(pipe): void {
+    this.users$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      map(text => this.search(text, pipe))
+    );
   }
 
   get users(): User[] {
@@ -65,18 +77,34 @@ export class AppComponent {
     this.family = '';
   }
 
+  resetSelectedUser(): void {
+    this.selectedUser = null;
+  }
+
   open(): void {
     const modalRef = this.modalService.open(NgbdModalContent);
     if (this.selectedUser) {
       this.selectedUser['editingIndex'] = this.editingIndex;
       modalRef.componentInstance.user = this.selectedUser;
+      console.log('selectedUser', this.selectedUser);
     } else {
-      modalRef.componentInstance.user = new User(this.name, this.family);
+      modalRef.componentInstance.user = new User('', '');
     }
     modalRef.componentInstance.passEntry.subscribe(receivedEntry => {
       this.selectedUser
         ? this._users.splice(this.editingIndex, 1, receivedEntry)
         : this._users.push(receivedEntry);
+    });
+    this.userFilter(this.pipe);
+  }
+
+  search(text: string, pipe: PipeTransform): User[] {
+    return this._users.filter(user => {
+      const term = text.toLowerCase();
+      return (
+        user.name.toLowerCase().includes(term) ||
+        user.family.toLowerCase().includes(term)
+      );
     });
   }
 }
@@ -121,31 +149,3 @@ export interface LocalDate {
   month: number;
   year: number;
 }
-
-// function search(text: string, pipe: PipeTransform): Users[] {
-//   return USERS.filter(country => {
-//     const term = text.toLowerCase();
-//     return (
-//       country.name.toLowerCase().includes(term) ||
-//       pipe.transform(country.area).includes(term) ||
-//       pipe.transform(country.population).includes(term)
-//     );
-//   });
-// }
-
-// @Component({
-//   selector: 'ngbd-table-filtering',
-//   templateUrl: './app.component.html',
-//   providers: [DecimalPipe]
-// })
-// export class NgbdTableFiltering {
-//   users$: Observable<User[]>;
-//   filter = new FormControl('');
-
-//   constructor(pipe: DecimalPipe) {
-//     this.users$ = this.filter.valueChanges.pipe(
-//       startWith('')
-//       // map(text => search(text, pipe))
-//     );
-//   }
-// }

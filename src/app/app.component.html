@@ -3,11 +3,13 @@
   <form class="search">
     <div class="form-group form-inline">
       Full text search:
-      <!-- <input class="form-control ml-2" type="text" [formControl]="filter" /> -->
-      <input class="form-control ml-2" type="text" />
+      <input class="form-control ml-2" type="text" [formControl]="filter" />
     </div>
     <div>
-      <button class="btn btn-outline-primary" (click)="open()">
+      <button
+        class="btn btn-outline-primary"
+        (click)="resetSelectedUser(); open()"
+      >
         Add new user
       </button>
     </div>
@@ -28,22 +30,21 @@
       <tr *ngFor="let user of users; index as i">
         <th scope="row">{{ user.itemNum }}</th>
         <td>
-          <!-- <ngb-highlight [result]="user.name" [term]="filter.value"> -->
-          {{ user.name }}
-          <!-- </ngb-highlight> -->
+          <ngb-highlight [result]="user.name" [term]="filter.value">
+            <!-- {{ user.name }} -->
+          </ngb-highlight>
         </td>
         <td>
-          <!-- <ngb-highlight [result]="user.family" [term]="filter.value"> -->
-          {{ user.family }}
-          <!-- </ngb-highlight> -->
+          <ngb-highlight [result]="user.family" [term]="filter.value">
+            <!-- {{ user.family }} -->
+          </ngb-highlight>
         </td>
         <td>
-          <!-- <ngb-highlight [result]="user.birthday" [term]="filter.value"> -->
-          {{ user.birthday }}
-          <!-- </ngb-highlight> -->
+          <ngb-highlight [result]="user.birthday" [term]="filter.value">
+            <!-- {{ user.birthday }} -->
+          </ngb-highlight>
         </td>
         <td>
-          <!-- <ngb-highlight [result]="user.birthday" [term]="filter.value"> -->
           <button
             class="btn btn-outline-primary"
             (click)="setEditUser(i); open()"
