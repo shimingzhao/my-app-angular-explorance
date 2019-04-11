@@ -31,17 +31,14 @@
         <th scope="row">{{ user.itemNum }}</th>
         <td>
           <ngb-highlight [result]="user.name" [term]="filter.value">
-            <!-- {{ user.name }} -->
           </ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="user.family" [term]="filter.value">
-            <!-- {{ user.family }} -->
           </ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="user.birthday" [term]="filter.value">
-            <!-- {{ user.birthday }} -->
           </ngb-highlight>
         </td>
         <td>
@@ -54,7 +51,6 @@
           <button class="btn btn-outline-primary" (click)="delete(i)">
             delete
           </button>
-          <!-- </ngb-highlight> -->
         </td>
       </tr>
     </tbody>
