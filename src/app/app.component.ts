@@ -14,6 +14,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalContent } from './modal-content';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { log } from 'util';
 
 @Component({
   selector: 'app-root',
@@ -73,7 +74,9 @@ export class AppComponent {
       modalRef.componentInstance.user = new User(this.name, this.family);
     }
     modalRef.componentInstance.passEntry.subscribe(receivedEntry => {
-      console.log(receivedEntry);
+      this.selectedUser
+        ? this._users.splice(this.editingIndex, 1, receivedEntry)
+        : this._users.push(receivedEntry);
     });
   }
 }

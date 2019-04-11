@@ -1,4 +1,12 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from './app.component';
 
@@ -8,12 +16,21 @@ import { User } from './app.component';
 })
 export class NgbdModalContent implements OnInit {
   @Input() user: User;
+  @ViewChild('username') username: ElementRef;
+  @ViewChild('userfamily') userfamily: ElementRef;
+  @ViewChild('useritemnum') useritemnum: ElementRef;
+  @ViewChild('userbirthday') userbirthday: ElementRef;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   constructor(public activeModal: NgbActiveModal) {}
-  ngOnInit() {
-    console.log(this.user);
-  }
+  ngOnInit() {}
   passBack(): void {
-    this.passEntry.emit(this.user);
+    let newUser = new User(
+      this.username.nativeElement.value,
+      this.userfamily.nativeElement.value
+    );
+    newUser['_itemNum'] = this.useritemnum.nativeElement.value;
+    newUser['_birthday'] = this.userbirthday.nativeElement.value;
+    console.log('newUser', newUser);
+    this.passEntry.emit(newUser);
   }
 }

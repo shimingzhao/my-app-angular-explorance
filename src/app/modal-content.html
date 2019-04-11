@@ -9,21 +9,30 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+<!-- <form (submit)="onSubmit()> -->
 <div class="modal-body">
   <p>
+    Id :
+    <input #useritemnum [(ngModel)]="user.itemNum" type="text" />
+  </p>
+  <p>
     Name :
-    <input [(ngModel)]="user.name" type="text" />
+    <input #username [(ngModel)]="user.name" type="text" />
   </p>
   <p>
     Family :
-    <input [(ngModel)]="user.family" type="text" />
+    <input #userfamily [(ngModel)]="user.family" type="text" />
+  </p>
+  <p>
+    Birthday :
+    <input #userbirthday [(ngModel)]="user.birthday" type="text" />
   </p>
 </div>
 <div class="modal-footer">
   <button
     class="btn btn-outline-dark"
     [hidden]="user.editingIndex !== undefined"
-    (click)="add()"
+    (click)="passBack(); activeModal.close('Close click')"
     type="button"
   >
     Add
@@ -31,7 +40,7 @@
   <button
     class="btn btn-outline-dark"
     [hidden]="user.editingIndex === undefined"
-    (click)="edit()"
+    (click)="passBack(); activeModal.close('Close click')"
     type="button"
   >
     Edit
@@ -45,3 +54,4 @@
     Close
   </button>
 </div>
+<!-- </form> -->
